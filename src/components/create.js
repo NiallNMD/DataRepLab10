@@ -21,8 +21,19 @@ export class Create extends React.Component {
         console.log(this.state.Title);
         console.log(this.state.Year);
         console.log(this.state.Poster);
+        alert("Movie Name: " + this.state.Title + "\nMovie Year: " + this.state.Year + "\nMovie Poster: " + this.state.Poster);
         event.preventDefault();
+
+        this.setState({
+            Title: '',
+            Year: '',
+            Poster: '',
+        })
     }
+
+
+
+
 
     onChangeMovieName(event) {
         this.setState({ Title: event.target.value });
