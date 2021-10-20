@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 export class Create extends React.Component {
     constructor() {
         super();
+        //Needed to handle events or it will fail
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChangeMovieName = this.onChangeMovieName.bind(this);
         this.onChangeReleaseYear = this.onChangeReleaseYear.bind(this);
