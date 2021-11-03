@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export class Create extends React.Component {
     constructor() {
@@ -22,6 +23,22 @@ export class Create extends React.Component {
         console.log(this.state.Year);
         console.log(this.state.Poster);
         alert("Movie Name: " + this.state.Title + "\nMovie Year: " + this.state.Year + "\nMovie Poster: " + this.state.Poster);
+
+        //Passing information to server
+        const NewMovie = {
+            Title: this.state.Title,
+            Year: this.state.Year,
+            Poster: this.state.Title
+        }
+        //Using POST Method sending to this url, passing NewMovie to server. 
+        axios.post('http://localhost:4000/api/movies',NewMovie)
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
         event.preventDefault();
 
         this.setState({
