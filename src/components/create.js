@@ -28,7 +28,7 @@ export class Create extends React.Component {
         const NewMovie = {
             Title: this.state.Title,
             Year: this.state.Year,
-            Poster: this.state.Title
+            Poster: this.state.Poster
         }
         //Using POST Method sending to this url, passing NewMovie to server. 
         axios.post('http://localhost:4000/api/movies',NewMovie)
