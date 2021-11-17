@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-export class Create extends React.Component {
+export class Edit extends React.Component {
     constructor() {
         super();
         //Needed to handle events or it will fail
@@ -17,7 +17,21 @@ export class Create extends React.Component {
 
         }
     }
-
+    //When component is used/shown, this will show/do the function.
+    componentDidMount() { 
+        console.log(this.props.match.params.id);
+        //get id from search bar and put details in fill in Edit
+        axios.get('http://localhost:4000/api/movies/' +this.props.match.params.id)
+        .then((response)=>{
+            this.setState({
+                Title: response.data.Title,
+                Year: response.data.Year,
+                Poster: response.data.Poster,
+                _id: response.data._id
+            })
+        })
+        .catch();
+    }
     handleSubmit(event) {
         console.log(this.state.Title);
         console.log(this.state.Year);
@@ -30,14 +44,20 @@ export class Create extends React.Component {
             Year: this.state.Year,
             Poster: this.state.Poster
         }
+
+        //Interacts with the server.js version of PUT and updates the value thats in the database with what was written in the button.
+        axios.put('http://localhost:4000/api/movies/'+ this.state._id, NewMovie)
+        .then()
+        .catch();
+        
         //Using POST Method sending to this url, passing NewMovie to server. 
-        axios.post('http://localhost:4000/api/movies',NewMovie)
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+        // axios.post('http://localhost:4000/api/movies', NewMovie)
+        //     .then((response) => {
+        //         console.log(response);
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     });
 
         event.preventDefault();
 
@@ -64,24 +84,24 @@ export class Create extends React.Component {
     render() {
         return (
             <div>
-                <h1>This is the Create  Component</h1>
+                <h1>This is the Edit  Component</h1>
                 <form onSubmit={this.handleSubmit}>
                     <div className="form-group">
-                        <label>Add Movie Name: </label>
+                        <label>Edit Movie Name: </label>
                         <input type="text"
                             className="form-control"
                             value={this.state.Title}
                             onChange={this.onChangeMovieName}
                         />
 
-                        <label>Add Release Year: </label>
+                        <label>Edit Release Year: </label>
                         <input type="text"
                             className="form-control"
                             value={this.state.Year}
                             onChange={this.onChangeReleaseYear}
                         />
 
-                        <label>Add poster url: </label>
+                        <label>Edit poster url: </label>
                         <input type="text"
                             className="form-control"
                             value={this.state.Poster}
@@ -90,10 +110,11 @@ export class Create extends React.Component {
                     </div>
 
                     <div>
-                        <input type="submit" value="Add Movie" className="btn btn-primary"></input>
+                        <input type="submit" value="Edit Movie" className="btn btn-primary"></input>
                     </div>
                 </form>
             </div>
         );
     }
 }
+export default Edit;

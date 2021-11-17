@@ -6,7 +6,6 @@ const port = 4000;
 const bodyParser = require('body-parser'); //Get information from HTTP 
 const mongoose = require('mongoose');
 
-
 //Allow CORS requests
 const cors = require('cors');
 app.use(cors());
@@ -68,7 +67,6 @@ app.post('/api/movies', (req, res) => {
     // res.send("Item Addded");
 })
 
-
 //passing JSON through
 app.get('/api/movies', (req, res) => {
     // const movies = [
@@ -112,6 +110,7 @@ app.get('/api/movies', (req, res) => {
     //     'message': 'Data Sent'
     // })
 })
+
 //Searching for the wanted movie via the search bar
 app.get('/api/movies/:id', (req, res) => {
     console.log(req.params.id);
@@ -121,6 +120,12 @@ app.get('/api/movies/:id', (req, res) => {
     })
 })
 
+app.put('/api/movies/:id', (req, res) => {
+    console.log("Updating: " + req.params.id);
+
+    MovieModel.findByIdAndUpdate(req.params.id, req.body, {new:true}, 
+        (err, data) => {res.send(data)});
+});
 
 //passing a file through to the URL - browser does majority of work and hides html tags etc.
 app.get('/test', (req, res) => {
@@ -136,7 +141,6 @@ app.get('/name', (req, res) => {
 app.post('/name', (req, res) => {
     res.send('Goodbye ' + req.body.firstname + ' ' + req.body.lastname);
 })
-
 
 //Listening to HTTP requests, once in will execute.
 app.listen(port, () => {
