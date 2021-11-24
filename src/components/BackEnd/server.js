@@ -142,6 +142,14 @@ app.post('/name', (req, res) => {
     res.send('Goodbye ' + req.body.firstname + ' ' + req.body.lastname);
 })
 
+//delete movie from id put into search bar
+app.delete('/api/movies/:id', (req, res) => {
+    console.log("Delete Movie: " + req.params.id);
+    //when deleted send back the data to the client.
+    MovieModel.findByIdAndDelete(req.params.id, (err, data) => {
+        res.send(data);
+    });
+})
 //Listening to HTTP requests, once in will execute.
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
