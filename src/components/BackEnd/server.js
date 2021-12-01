@@ -5,6 +5,7 @@ const app = express();
 const port = 4000;
 const bodyParser = require('body-parser'); //Get information from HTTP 
 const mongoose = require('mongoose');
+const path = require('path');
 
 //Allow CORS requests
 const cors = require('cors');
@@ -16,6 +17,11 @@ app.use(function (req, res, next) {
         "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+
+//Using Build folder to combine both server/front end
+app.use(express.static(path.join(__dirname, '../build')));
+app.use('/static', express.static(path.join(__dirname, 'build//static')));
+
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -123,8 +129,8 @@ app.get('/api/movies/:id', (req, res) => {
 app.put('/api/movies/:id', (req, res) => {
     console.log("Updating: " + req.params.id);
 
-    MovieModel.findByIdAndUpdate(req.params.id, req.body, {new:true}, 
-        (err, data) => {res.send(data)});
+    MovieModel.findByIdAndUpdate(req.params.id, req.body, { new: true },
+        (err, data) => { res.send(data) });
 });
 
 //passing a file through to the URL - browser does majority of work and hides html tags etc.
@@ -150,6 +156,12 @@ app.delete('/api/movies/:id', (req, res) => {
         res.send(data);
     });
 })
+
+//any other URL will send index html from BUILD
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/../build/index.html'));
+});
+
 //Listening to HTTP requests, once in will execute.
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
